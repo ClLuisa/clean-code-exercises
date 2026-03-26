@@ -35,11 +35,9 @@ class RasterGrid:
         x: float
         y: float
 
-    def __init__(self,
-                 lower_left_point: Point,
-                 upper_right_point: Point,
-                 nx: int,
-                 ny: int) -> None:
+    def __init__(
+        self, lower_left_point: Point, upper_right_point: Point, nx: int, ny: int
+    ) -> None:
         self._x0 = lower_left_point.x
         self._y0 = lower_left_point.y
         self._x1 = upper_right_point.x
@@ -48,20 +46,21 @@ class RasterGrid:
         self._ny = ny
         self._dx = (self._x1 - self._x0) / self._nx
         self._dy = (self._y1 - self._y0) / self._ny
-    
-    @property
-    def number_of_cells(self) -> int:
-        return self._nx*self._ny
 
     @property
-    def cells(self):
-        return [self.Cell(i, j) for i in range(self._nx) for j in range(self._ny)]
+    def number_of_cells(self) -> int:
+        return self._nx * self._ny
+
+    def __iter__(self):
+        for i in range(self._nx):
+            for j in range(self._ny):
+                yield self.Cell(i, j)
 
     def get_center(self, cell: Cell) -> Point:
         return self.Point(
-            self._x0 + (cell.ix + 0.5)*self._dx,
-            self._y0 + (cell.iy + 0.5)*self._dy
+            self._x0 + (cell.ix + 0.5) * self._dx, self._y0 + (cell.iy + 0.5) * self._dy
         )
+
 
 def test_number_of_cells():
     p0 = RasterGrid.Point(0.0, 0.0)
@@ -78,12 +77,14 @@ def test_cell_center():
         RasterGrid.Point(0.5, 0.5),
         RasterGrid.Point(1.5, 0.5),
         RasterGrid.Point(0.5, 1.5),
-        RasterGrid.Point(1.5, 1.5)
+        RasterGrid.Point(1.5, 1.5),
     ]
 
-    for cell in grid.cells:
+    for cell in grid:
         for center in expected_centers:
-            if isclose(grid.get_center(cell).x, center.x) and isclose(grid.get_center(cell).y, center.y):
+            if isclose(grid.get_center(cell).x, center.x) and isclose(
+                grid.get_center(cell).y, center.y
+            ):
                 expected_centers.remove(center)
 
     assert len(expected_centers) == 0

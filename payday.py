@@ -9,15 +9,19 @@ from typing import Iterable
 @dataclass
 class Debtor:
     """Stores the information on a person owing us money"""
+
     name: str
     debt: float
+
 
 def payday(debtors: Iterable[Debtor]) -> None:
     ordered_debtors = _sort_debtors(debtors)
     _print_deptors(ordered_debtors)
 
+
 def _sort_debtors(debtors: Iterable[Debtor]) -> Iterable[Debtor]:
     return reversed(sorted(debtors, key=lambda debtor: debtor.debt))
+
 
 def _print_deptors(debtors: Iterable[Debtor]) -> None:
     for debtor in debtors:
@@ -26,11 +30,14 @@ def _print_deptors(debtors: Iterable[Debtor]) -> None:
         else:
             print(f"{debtor.name}: {debtor.debt}")
 
+
 if __name__ == "__main__":
-    payday([
-        Debtor("Person1", 100.0),
-        Debtor("Person2", 200.0),
-        Debtor("Person3", 10.0),
-        Debtor("Person4", 50.0),
-        Debtor("Person5", 1250.0)
-    ])
+    payday(
+        [
+            Debtor("Person1", 100.0),
+            Debtor("Person2", 200.0),
+            Debtor("Person3", 10.0),
+            Debtor("Person4", 50.0),
+            Debtor("Person5", 1250.0),
+        ]
+    )
