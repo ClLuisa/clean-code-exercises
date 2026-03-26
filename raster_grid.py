@@ -30,17 +30,20 @@ class RasterGrid:
         _ix: int
         _iy: int
 
+    @dataclass
+    class Point:
+        x: float
+        y: float
+
     def __init__(self,
-                 x0: float,
-                 y0: float,
-                 x1: float,
-                 y1: float,
+                 point0: Point,
+                 point1: Point,
                  nx: int,
                  ny: int) -> None:
-        self._x0 = x0
-        self._y0 = y0
-        self._x1 = x1
-        self._y1 = y1
+        self._x0 = point0.x
+        self._y0 = point0.y
+        self._x1 = point1.x
+        self._y1 = point1.y
         self._nx = nx
         self._ny = ny
         self.number_of_cells = nx*ny
