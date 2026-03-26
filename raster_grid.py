@@ -27,8 +27,8 @@ from dataclasses import dataclass
 class RasterGrid:
     @dataclass
     class Cell:
-        _ix: int
-        _iy: int
+        ix: int
+        iy: int
 
     @dataclass
     class Point:
@@ -36,14 +36,14 @@ class RasterGrid:
         y: float
 
     def __init__(self,
-                 point0: Point,
-                 point1: Point,
+                 lower_left_point: Point,
+                 upper_right_point: Point,
                  nx: int,
                  ny: int) -> None:
-        self._x0 = point0.x
-        self._y0 = point0.y
-        self._x1 = point1.x
-        self._y1 = point1.y
+        self._x0 = lower_left_point.x
+        self._y0 = lower_left_point.y
+        self._x1 = upper_right_point.x
+        self._y1 = upper_right_point.y
         self._nx = nx
         self._ny = ny
         self.number_of_cells = nx*ny
@@ -53,24 +53,25 @@ class RasterGrid:
 
     def get_center(self, cell: Cell) -> Tuple[float, float]:
         return (
-            self._x0 + (float(cell._ix) + 0.5)*(self._x1 - self._x0)/self._nx,
-            self._y0 + (float(cell._iy) + 0.5)*(self._y1 - self._y0)/self._ny
+            self._x0 + (float(cell.ix) + 0.5)*(self._x1 - self._x0)/self._nx,
+            self._y0 + (float(cell.iy) + 0.5)*(self._y1 - self._y0)/self._ny
         )
 
 
 def test_number_of_cells():
-    x0 = 0.0
-    y0 = 0.0
-    dx = 1.0
-    dy = 1.0
-    assert RasterGrid(x0, y0, dx, dy, 10, 10).number_of_cells == 100
-    assert RasterGrid(x0, y0, dx, dy, 10, 20).number_of_cells == 200
-    assert RasterGrid(x0, y0, dx, dy, 20, 10).number_of_cells == 200
-    assert RasterGrid(x0, y0, dx, dy, 20, 20).number_of_cells == 400
+    p0 = RasterGrid.Point(0.0, 0.0)
+    p1 = RasterGrid.Point(10.0, 10.0)
+    assert RasterGrid(p0, p1, 10, 10).number_of_cells == 100
+    assert RasterGrid(p0, p1, 10, 20).number_of_cells == 200
+    assert RasterGrid(p0, p1, 20, 10).number_of_cells == 200
+    assert RasterGrid(p0, p1, 20, 20).number_of_cells == 400
 
 
 def test_cell_center():
-    grid = RasterGrid(0.0, 0.0, 2.0, 2.0, 2, 2)
+    p0 = RasterGrid.Point(0.0, 0.0)
+    p1 = RasterGrid.Point(2.0, 2.0)
+
+    grid = RasterGrid(p0, p1, 2, 2)
     expected_centers = [
         (0.5, 0.5),
         (1.5, 0.5),
