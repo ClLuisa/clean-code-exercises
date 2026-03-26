@@ -59,8 +59,8 @@ class RasterGrid:
 
     def get_center(self, cell: Cell) -> Tuple[float, float]:
         return (
-            self._x0 + (float(cell.ix) + 0.5)*self._dx,
-            self._y0 + (float(cell.iy) + 0.5)*self._dy
+            self._x0 + (cell.ix + 0.5)*self._dx,
+            self._y0 + (cell.iy + 0.5)*self._dy
         )
 
 def test_number_of_cells():
