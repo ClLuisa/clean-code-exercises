@@ -46,8 +46,11 @@ class RasterGrid:
         self._y1 = upper_right_point.y
         self._nx = nx
         self._ny = ny
-        self.number_of_cells = nx*ny
     
+    @property
+    def number_of_cells(self) -> int:
+        return self._nx*self._ny
+
     @property
     def cells(self):
         return [self.Cell(i, j) for i in range(self._nx) for j in range(self._ny)]
@@ -57,7 +60,6 @@ class RasterGrid:
             self._x0 + (float(cell.ix) + 0.5)*(self._x1 - self._x0)/self._nx,
             self._y0 + (float(cell.iy) + 0.5)*(self._y1 - self._y0)/self._ny
         )
-
 
 def test_number_of_cells():
     p0 = RasterGrid.Point(0.0, 0.0)
