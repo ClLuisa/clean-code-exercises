@@ -73,10 +73,7 @@ def test_number_of_cells():
 
 
 def test_cell_center():
-    p0 = RasterGrid.Point(0.0, 0.0)
-    p1 = RasterGrid.Point(2.0, 2.0)
-
-    grid = RasterGrid(p0, p1, 2, 2)
+    grid = RasterGrid(RasterGrid.Point(0.0, 0.0), RasterGrid.Point(2.0, 2.0), 2, 2)
     expected_centers = [
         RasterGrid.Point(0.5, 0.5),
         RasterGrid.Point(1.5, 0.5),
