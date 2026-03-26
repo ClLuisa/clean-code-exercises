@@ -57,8 +57,8 @@ class RasterGrid:
     def cells(self):
         return [self.Cell(i, j) for i in range(self._nx) for j in range(self._ny)]
 
-    def get_center(self, cell: Cell) -> Tuple[float, float]:
-        return (
+    def get_center(self, cell: Cell) -> Point:
+        return self.Point(
             self._x0 + (cell.ix + 0.5)*self._dx,
             self._y0 + (cell.iy + 0.5)*self._dy
         )
@@ -78,15 +78,15 @@ def test_cell_center():
 
     grid = RasterGrid(p0, p1, 2, 2)
     expected_centers = [
-        (0.5, 0.5),
-        (1.5, 0.5),
-        (0.5, 1.5),
-        (1.5, 1.5)
+        RasterGrid.Point(0.5, 0.5),
+        RasterGrid.Point(1.5, 0.5),
+        RasterGrid.Point(0.5, 1.5),
+        RasterGrid.Point(1.5, 1.5)
     ]
 
     for cell in grid.cells:
         for center in expected_centers:
-            if isclose(grid.get_center(cell)[0], center[0]) and isclose(grid.get_center(cell)[1], center[1]):
+            if isclose(grid.get_center(cell).x, center.x) and isclose(grid.get_center(cell).y, center.y):
                 expected_centers.remove(center)
 
     assert len(expected_centers) == 0
