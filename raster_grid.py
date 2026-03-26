@@ -44,8 +44,11 @@ class RasterGrid:
         self._nx = nx
         self._ny = ny
         self.nc = nx*ny
+        self.cells = []
+    
+    def generate_cells(self):
         self.cells = [
-            self.Cell(i, j) for i in range(nx) for j in range(ny)
+            self.Cell(i, j) for i in range(self._nx) for j in range(self._ny)
         ]
 
     def get_center(self, cell: Cell) -> Tuple[float, float]:
