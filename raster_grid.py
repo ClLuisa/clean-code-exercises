@@ -43,10 +43,7 @@ class RasterGrid:
         self._y1 = y1
         self._nx = nx
         self._ny = ny
-        self.nc = nx*ny
-        self.cells = []
-    
-    def generate_cells(self):
+        self.number_of_cells = nx*ny
         self.cells = [
             self.Cell(i, j) for i in range(self._nx) for j in range(self._ny)
         ]
@@ -63,10 +60,10 @@ def test_number_of_cells():
     y0 = 0.0
     dx = 1.0
     dy = 1.0
-    assert RasterGrid(x0, y0, dx, dy, 10, 10).nc == 100
-    assert RasterGrid(x0, y0, dx, dy, 10, 20).nc == 200
-    assert RasterGrid(x0, y0, dx, dy, 20, 10).nc == 200
-    assert RasterGrid(x0, y0, dx, dy, 20, 20).nc == 400
+    assert RasterGrid(x0, y0, dx, dy, 10, 10).number_of_cells == 100
+    assert RasterGrid(x0, y0, dx, dy, 10, 20).number_of_cells == 200
+    assert RasterGrid(x0, y0, dx, dy, 20, 10).number_of_cells == 200
+    assert RasterGrid(x0, y0, dx, dy, 20, 20).number_of_cells == 400
 
 
 def test_cell_center():
